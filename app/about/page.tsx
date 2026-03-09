@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import {
@@ -14,6 +15,13 @@ import {
   Shield,
 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
+import Image from 'next/image'
+
+export const metadata: Metadata = {
+  title: 'About Us',
+  description:
+    'Learn about EPSIRA, our purpose, mission, history, and the scholars behind the Ethiopian Political Science and International Relations Association.',
+}
 
 const programs = [
   {
@@ -257,11 +265,12 @@ export default function AboutPage() {
 
             <div className="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
               <div className="group overflow-hidden rounded-xl border border-border bg-card">
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HuuLLPmn4ySmCVVRuI5s5Gln4xxdZv.png"
                     alt="EPSIRA founding members group photo taken outdoors"
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-4">
@@ -275,11 +284,12 @@ export default function AboutPage() {
               </div>
 
               <div className="group overflow-hidden rounded-xl border border-border bg-card">
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-MuHteWbe5abgmb7RwCaFyEfX5b9tXK.png"
                     alt="EPSIRA members at a formal meeting"
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-4">
@@ -293,11 +303,12 @@ export default function AboutPage() {
               </div>
 
               <div className="group overflow-hidden rounded-xl border border-border bg-card md:col-span-2 lg:col-span-1">
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-MnritzWPEkb6cUes7xhaSSiwqsmKmV.png"
                     alt="EPSIRA leaders at the Department of Political Science and International Relations"
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-4">
@@ -313,7 +324,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Governance Section */}
+        {/* Governance Structure */}
         <section className="border-t border-border bg-secondary/30 py-16 sm:py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-3xl text-center">

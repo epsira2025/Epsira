@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useJournals } from '@/hooks/use-firebase'
+import Image from 'next/image'
+import { getGoogleDriveDirectUrl } from '@/lib/utils'
 
 export function LatestJournalsSection() {
   const { journals, isLoading } = useJournals()
@@ -52,12 +54,13 @@ export function LatestJournalsSection() {
                 className="group flex flex-col border-border transition-shadow hover:shadow-md"
               >
                 <CardContent className="flex-1 p-6">
-                  <div className="mb-4 flex h-40 items-center justify-center rounded-md bg-primary/5">
+                  <div className="relative mb-4 flex h-40 items-center justify-center overflow-hidden rounded-md bg-primary/5">
                     {journal.coverImageUrl ? (
-                      <img
-                        src={journal.coverImageUrl}
+                      <Image
+                        src={getGoogleDriveDirectUrl(journal.coverImageUrl)}
                         alt={journal.title}
-                        className="h-full w-full rounded-md object-cover"
+                        fill
+                        className="object-cover transition-transform group-hover:scale-105"
                       />
                     ) : (
                       <FileText className="h-16 w-16 text-primary/30" />

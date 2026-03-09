@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useEvents } from '@/hooks/use-firebase'
+import Image from 'next/image'
+import { getGoogleDriveDirectUrl } from '@/lib/utils'
 
 export function UpcomingEventsSection() {
   const { events, isLoading } = useEvents()
@@ -61,11 +63,12 @@ export function UpcomingEventsSection() {
                 >
                   <CardContent className="p-6">
                     {event.imageUrl && (
-                      <div className="mb-4 overflow-hidden rounded-md">
-                        <img
-                          src={event.imageUrl}
+                      <div className="relative mb-4 h-32 overflow-hidden rounded-md">
+                        <Image
+                          src={getGoogleDriveDirectUrl(event.imageUrl)}
                           alt={event.title}
-                          className="h-32 w-full object-cover transition-transform group-hover:scale-105"
+                          fill
+                          className="object-cover transition-transform group-hover:scale-105"
                         />
                       </div>
                     )}

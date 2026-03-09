@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useJournals } from '@/hooks/use-firebase'
 import { useState, useMemo } from 'react'
+import Image from 'next/image'
+import { getGoogleDriveDirectUrl } from '@/lib/utils'
 
 export default function JournalsPage() {
   const { journals, isLoading } = useJournals()
@@ -88,12 +90,13 @@ export default function JournalsPage() {
                     className="group flex flex-col border-border transition-shadow hover:shadow-md"
                   >
                     <CardContent className="flex-1 p-6">
-                      <div className="mb-4 flex h-48 items-center justify-center overflow-hidden rounded-md bg-primary/5">
+                      <div className="relative mb-4 flex h-48 items-center justify-center overflow-hidden rounded-md bg-primary/5">
                         {journal.coverImageUrl ? (
-                          <img
-                            src={journal.coverImageUrl}
+                          <Image
+                            src={getGoogleDriveDirectUrl(journal.coverImageUrl)}
                             alt={journal.title}
-                            className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                            fill
+                            className="object-cover transition-transform group-hover:scale-105"
                           />
                         ) : (
                           <FileText className="h-20 w-20 text-primary/30" />

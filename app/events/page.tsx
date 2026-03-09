@@ -8,6 +8,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useEvents } from '@/hooks/use-firebase'
 import { useMemo } from 'react'
+import Image from 'next/image'
+import { getGoogleDriveDirectUrl } from '@/lib/utils'
 
 export default function EventsPage() {
   const { events, isLoading } = useEvents()
@@ -151,11 +153,12 @@ function EventCard({
     >
       <CardContent className="flex-1 p-6">
         {event.imageUrl && (
-          <div className="mb-4 overflow-hidden rounded-md">
-            <img
-              src={event.imageUrl}
+          <div className="relative mb-4 h-40 overflow-hidden rounded-md">
+            <Image
+              src={getGoogleDriveDirectUrl(event.imageUrl)}
               alt={event.title}
-              className="h-40 w-full object-cover transition-transform group-hover:scale-105"
+              fill
+              className="object-cover transition-transform group-hover:scale-105"
             />
           </div>
         )}

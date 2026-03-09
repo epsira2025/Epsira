@@ -17,7 +17,10 @@ const merriweather = Merriweather({
 })
 
 export const metadata: Metadata = {
-  title: 'EPSIRA - Ethiopian Political Science and International Relations Association',
+  title: {
+    default: 'EPSIRA - Ethiopian Political Science and International Relations Association',
+    template: '%s | EPSIRA',
+  },
   description:
     'The Ethiopian Political Science and International Relations Association (EPSIRA) is dedicated to advancing political science and international relations research in Ethiopia.',
   keywords: [
@@ -27,7 +30,29 @@ export const metadata: Metadata = {
     'Ethiopia',
     'Research',
     'Academic Journals',
+    'Political Science Association',
   ],
+  authors: [{ name: 'EPSIRA' }],
+  creator: 'EPSIRA',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://epsira.org',
+    title: 'EPSIRA - Ethiopian Political Science and International Relations Association',
+    description:
+      'Advancing political science and international relations research in Ethiopia through academic publications and scholarly events.',
+    siteName: 'EPSIRA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'EPSIRA - Ethiopian Political Science and International Relations Association',
+    description:
+      'Advancing political science and international relations research in Ethiopia.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export const viewport: Viewport = {
