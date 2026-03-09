@@ -26,6 +26,8 @@ import {
 } from '@/components/ui/alert-dialog'
 import { useEvents, deleteEvent } from '@/hooks/use-firebase'
 import { toast } from 'sonner'
+import Image from 'next/image'
+import { getGoogleDriveDirectUrl } from '@/lib/utils'
 
 export default function AdminEventsPage() {
   const { events, isLoading, mutate } = useEvents()
@@ -114,11 +116,12 @@ export default function AdminEventsPage() {
                 >
                   <CardContent className="flex flex-1 flex-col p-6">
                     {event.imageUrl && (
-                      <div className="mb-4 overflow-hidden rounded-md">
-                        <img
-                          src={event.imageUrl}
+                      <div className="relative mb-4 h-32 overflow-hidden rounded-md">
+                        <Image
+                          src={getGoogleDriveDirectUrl(event.imageUrl)}
                           alt={event.title}
-                          className="h-32 w-full object-cover"
+                          fill
+                          className="object-cover"
                         />
                       </div>
                     )}
