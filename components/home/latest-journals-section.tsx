@@ -86,7 +86,7 @@ export function LatestJournalsSection() {
                   </p>
                 </CardContent>
                 <CardFooter className="border-t border-border p-4">
-                  <Button asChild variant="outline" className="w-full gap-2">
+                  <Button asChild variant="default" className="w-full gap-2">
                     <a
                       href={journal.googleDriveUrl}
                       target="_blank"

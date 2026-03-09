@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 /**
  * Converts a Google Drive "view" or "sharing" link to a direct image URL.
- * Supports /file/d/[ID]/view and ?id=[ID] formats.
+ * Uses the thumbnail endpoint which is more reliable for embedding.
  */
 export function getGoogleDriveDirectUrl(url: string | undefined): string {
   if (!url) return ''
@@ -27,7 +27,8 @@ export function getGoogleDriveDirectUrl(url: string | undefined): string {
     }
 
     if (fileId) {
-      return `https://drive.google.com/uc?export=view&id=${fileId}`
+      // sz=w1000 ensures high quality (up to 1000px width)
+      return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`
     }
   } catch (error) {
     console.error('Error parsing Google Drive URL:', error)

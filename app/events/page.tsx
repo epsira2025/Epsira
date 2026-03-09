@@ -2,14 +2,15 @@
 
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
-import { Calendar, MapPin, CalendarDays, Clock } from 'lucide-react'
+import { Calendar, MapPin, CalendarDays, Clock, ChevronDown, ChevronUp } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useEvents } from '@/hooks/use-firebase'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import { getGoogleDriveDirectUrl } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 export default function EventsPage() {
   const { events, isLoading } = useEvents()
@@ -143,7 +144,9 @@ function EventCard({
   }
   isPast?: boolean
 }) {
+  const [isExpanded, setIsExpanded] = useState(false)
   const eventDate = new Date(event.date)
+  const isLongDescription = event.description.length > 150
 
   return (
     <Card
@@ -200,9 +203,29 @@ function EventCard({
           </div>
         )}
 
-        <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
-          {event.description}
-        </p>
+        <div className="mt-4 space-y-2">
+          <p className={`text-sm leading-relaxed text-muted-foreground ${!isExpanded ? 'line-clamp-3' : ''}`}>
+            {event.description}
+          </p>
+          {isLongDescription && (
+            <Button
+              variant="link"
+              size="sm"
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="h-auto p-0 text-primary font-medium hover:no-underline"
+            >
+              {isExpanded ? (
+                <span className="flex items-center gap-1">
+                  Read Less <ChevronUp className="h-3 w-3" />
+                </span>
+              ) : (
+                <span className="flex items-center gap-1">
+                  Read More <ChevronDown className="h-3 w-3" />
+                </span>
+              )}
+            </Button>
+          )}
+        </div>
       </CardContent>
     </Card>
   )

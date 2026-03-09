@@ -26,6 +26,8 @@ import {
 } from '@/components/ui/alert-dialog'
 import { useJournals, deleteJournal } from '@/hooks/use-firebase'
 import { toast } from 'sonner'
+import Image from 'next/image'
+import { getGoogleDriveDirectUrl } from '@/lib/utils'
 
 export default function AdminJournalsPage() {
   const { journals, isLoading, mutate } = useJournals()
@@ -107,12 +109,13 @@ export default function AdminJournalsPage() {
                 className="group flex flex-col border-border"
               >
                 <CardContent className="flex flex-1 flex-col p-6">
-                  <div className="mb-4 flex h-40 items-center justify-center overflow-hidden rounded-md bg-primary/5">
+                  <div className="relative mb-4 flex h-40 items-center justify-center overflow-hidden rounded-md bg-primary/5">
                     {journal.coverImageUrl ? (
-                      <img
-                        src={journal.coverImageUrl}
+                      <Image
+                        src={getGoogleDriveDirectUrl(journal.coverImageUrl)}
                         alt={journal.title}
-                        className="h-full w-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     ) : (
                       <FileText className="h-16 w-16 text-primary/30" />
@@ -188,14 +191,16 @@ export default function AdminJournalsPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDelete}
-              disabled={isDeleting}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
-              {isDeleting ? 'Deleting...' : 'Delete'}
-            </AlertDialogAction>
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                {isDeleting ? 'Deleting...' : 'Delete'}
+              </AlertDialogAction>
+            </AlertDialogFooter>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
