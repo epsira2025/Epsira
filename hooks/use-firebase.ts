@@ -25,6 +25,16 @@ export interface Journal {
   createdAt?: Date
 }
 
+export interface Newsletter {
+  id: string
+  title: string
+  description: string
+  publicationDate: string
+  googleDriveUrl: string
+  coverImageUrl?: string
+  createdAt?: Date
+}
+
 export interface Event {
   id: string
   title: string
@@ -45,6 +55,16 @@ async function fetchJournals(): Promise<Journal[]> {
   })) as Journal[]
 }
 
+async function fetchNewsletters(): Promise<Newsletter[]> {
+  const newslettersRef = collection(db, 'newsletters')
+  const q = query(newslettersRef, orderBy('publicationDate', 'desc'))
+  const snapshot = await getDocs(q)
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as Newsletter[]
+}
+
 async function fetchEvents(): Promise<Event[]> {
   const eventsRef = collection(db, 'events')
   const q = query(eventsRef, orderBy('date', 'desc'))
@@ -59,6 +79,16 @@ export function useJournals() {
   const { data, error, isLoading, mutate } = useSWR('journals', fetchJournals)
   return {
     journals: data || [],
+    isLoading,
+    error,
+    mutate,
+  }
+}
+
+export function useNewsletters() {
+  const { data, error, isLoading, mutate } = useSWR('newsletters', fetchNewsletters)
+  return {
+    newsletters: data || [],
     isLoading,
     error,
     mutate,
@@ -92,6 +122,37 @@ export async function updateJournal(id: string, journal: Partial<Journal>) {
 export async function deleteJournal(id: string) {
   const journalRef = doc(db, 'journals', id)
   await deleteDoc(journalRef)
+}
+
+export async function addNewsletter(newsletter: Omit<Newsletter, 'id' | 'createdAt'>) {
+  const newslettersRef = collection(db, 'newsletters')
+  const docRef = await addDoc(newslettersRef, {
+    title: newsletter.title,
+    description: newsletter.description,
+    publicationDate: newsletter.publicationDate,
+    googleDriveUrl: newsletter.googleDriveUrl,
+    coverImageUrl: newsletter.coverImageUrl || '',
+    createdAt: Timestamp.now(),
+  })
+  return docRef.id
+}
+
+export async function updateNewsletter(id: string, newsletter: Partial<Newsletter>) {
+  const newsletterRef = doc(db, 'newsletters', id)
+  const data: any = {}
+  
+  if (newsletter.title) data.title = newsletter.title
+  if (newsletter.description) data.description = newsletter.description
+  if (newsletter.publicationDate) data.publicationDate = newsletter.publicationDate
+  if (newsletter.googleDriveUrl) data.googleDriveUrl = newsletter.googleDriveUrl
+  if (newsletter.coverImageUrl !== undefined) data.coverImageUrl = newsletter.coverImageUrl || ''
+  
+  await updateDoc(newsletterRef, data)
+}
+
+export async function deleteNewsletter(id: string) {
+  const newsletterRef = doc(db, 'newsletters', id)
+  await deleteDoc(newsletterRef)
 }
 
 export async function addEvent(event: Omit<Event, 'id'>) {
