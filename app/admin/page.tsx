@@ -3,8 +3,8 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
-  BookOpen,
   Calendar,
   LogOut,
   Plus,
@@ -53,19 +53,20 @@ export default function AdminDashboard() {
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-              <BookOpen className="h-5 w-5 text-primary-foreground" />
-            </div>
+          <Link href="/" className="flex items-center gap-3">
+            <Image
+              src="/Logo EPSIRA .png"
+              alt="EPSIRA Logo"
+              width={160}
+              height={60}
+              className="h-10 w-auto"
+            />
             <div className="flex flex-col">
-              <span className="text-lg font-bold tracking-tight text-foreground">
-                EPSIRA Admin
-              </span>
-              <span className="text-xs text-muted-foreground">
-                Content Management
+              <span className="text-sm font-bold tracking-tight text-foreground">
+                Admin
               </span>
             </div>
-          </div>
+          </Link>
 
           <div className="flex items-center gap-4">
             <Link

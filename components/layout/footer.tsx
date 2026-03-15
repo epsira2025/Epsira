@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { BookOpen, Mail, MapPin } from 'lucide-react'
+import Image from 'next/image'
+import { Mail, MapPin } from 'lucide-react'
 
 const footerLinks = {
   organization: [
@@ -21,17 +22,13 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                <BookOpen className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-lg font-bold tracking-tight text-foreground">
-                  EPSIRA
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  Ethiopian Political Science and International Relations Association
-                </span>
-              </div>
+              <Image
+                src="/Logo EPSIRA .png"
+                alt="EPSIRA Logo"
+                width={200}
+                height={75}
+                className="h-12 w-auto"
+              />
             </Link>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
               Advancing political science and international relations research

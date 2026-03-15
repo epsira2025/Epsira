@@ -22,7 +22,7 @@ const objectives = [
   },
   {
     icon: Lightbulb,
-    title: 'Policy Engagement',
+    title: 'Civic Engagement',
     description:
       'Inform policy processes at the national, regional, continental and international level through research-based insights.',
   },

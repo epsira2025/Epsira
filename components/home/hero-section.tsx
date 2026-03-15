@@ -11,8 +11,8 @@ export function HeroSection() {
           className="absolute inset-0"
           style={{
             backgroundImage:
-              'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)',
-            backgroundSize: '40px 40px',
+              "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
+            backgroundSize: "40px 40px",
           }}
         />
       </div>
@@ -25,7 +25,7 @@ export function HeroSection() {
           </div>
 
           <h1 className="text-balance font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Advancing Political Science & International Relations in Ethiopia
+            Ethiopian Political Science and International Relations Association
           </h1>
 
           <p className="mt-6 text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl">
@@ -50,25 +50,8 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-8 sm:mt-20 lg:grid-cols-4">
-          {[
-            { label: 'Published Journals', value: '50+' },
-            { label: 'Research Papers', value: '200+' },
-            { label: 'Academic Events', value: '30+' },
-            { label: 'Member Scholars', value: '150+' },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-3xl font-bold text-primary sm:text-4xl">
-                {stat.value}
-              </div>
-              <div className="mt-1 text-sm text-muted-foreground">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
+         
       </div>
     </section>
-  )
+  );
 }

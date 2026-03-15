@@ -100,22 +100,7 @@ export default function ContactPage() {
                     </CardContent>
                   </Card>
 
-                  <Card className="border-border">
-                    <CardContent className="flex items-start gap-4 p-6">
-                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                        <Mail className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-foreground">Zelalem T.</h3>
-                        <p className="mt-1 text-muted-foreground">
-                          zelalemgg2020@gmail.com
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          +251 908 020 322
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  
 
                   <Card className="border-border">
                     <CardContent className="flex items-start gap-4 p-6">
