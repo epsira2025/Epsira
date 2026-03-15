@@ -27,9 +27,9 @@ export function Header() {
           <Image
             src="/Logo EPSIRA .png"
             alt="EPSIRA Logo"
-            width={160}
-            height={60}
-            className="h-10 w-auto"
+            width={200}
+            height={100}
+            className="h-14 w-auto"
             priority
           />
         </Link>

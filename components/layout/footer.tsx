@@ -25,9 +25,9 @@ export function Footer() {
               <Image
                 src="/Logo EPSIRA .png"
                 alt="EPSIRA Logo"
-                width={200}
-                height={75}
-                className="h-12 w-auto"
+                width={240}
+                height={90}
+                className="h-16 w-auto"
               />
             </Link>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
