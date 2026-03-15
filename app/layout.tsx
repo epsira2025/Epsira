@@ -34,6 +34,14 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'EPSIRA' }],
   creator: 'EPSIRA',
+  icons: {
+    icon: [
+      { url: '/Logo EPSIRA .png', sizes: 'any' },
+    ],
+    apple: [
+      { url: '/apple-icon.png' },
+    ],
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
