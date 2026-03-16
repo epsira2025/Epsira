@@ -4,6 +4,7 @@ import { Footer } from '@/components/layout/footer'
 import { HeroSection } from '@/components/home/hero-section'
 import { MissionSection } from '@/components/home/mission-section'
 import { LatestJournalsSection } from '@/components/home/latest-journals-section'
+import { LatestNewslettersSection } from '@/components/home/latest-newsletters-section'
 import { UpcomingEventsSection } from '@/components/home/upcoming-events-section'
 import { CTASection } from '@/components/home/cta-section'
 
@@ -21,6 +22,7 @@ export default function HomePage() {
         <HeroSection />
         <MissionSection />
         <LatestJournalsSection />
+        <LatestNewslettersSection />
         <UpcomingEventsSection />
         <CTASection />
       </main>

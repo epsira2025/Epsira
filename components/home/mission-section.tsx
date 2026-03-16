@@ -42,24 +42,23 @@ export function MissionSection() {
           </p>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-5xl gap-6 sm:grid-cols-2">
+        <div className="mx-auto mt-16 grid max-w-5xl gap-8 sm:grid-cols-2">
           {objectives.map((objective) => (
-            <Card
+            <div
               key={objective.title}
-              className="group border-border bg-background transition-shadow hover:shadow-md"
+              className="group relative rounded-2xl border border-border bg-background p-8 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/5"
             >
-              <CardContent className="p-6">
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                  <objective.icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground">
-                  {objective.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {objective.description}
-                </p>
-              </CardContent>
-            </Card>
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-500 group-hover:bg-primary group-hover:text-primary-foreground group-hover:rotate-3">
+                <objective.icon className="h-7 w-7" />
+              </div>
+              <h3 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                {objective.title}
+              </h3>
+              <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+                {objective.description}
+              </p>
+              <div className="absolute bottom-0 left-0 h-1 w-0 bg-primary transition-all duration-500 group-hover:w-full rounded-b-2xl" />
+            </div>
           ))}
         </div>
       </div>
