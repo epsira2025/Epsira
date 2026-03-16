@@ -20,17 +20,28 @@ export default function ContactPage() {
     message: '',
   })
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    // Simple mailto implementation
+    const recipient = 'solnmg45@gmail.com'
+    const subject = encodeURIComponent(formData.subject)
+    const body = encodeURIComponent(
+      `From: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    )
 
-    toast.success('Message sent successfully!', {
-      description: 'We will get back to you as soon as possible.',
+    // Construct the mailto URL
+    const mailtoUrl = `mailto:${recipient}?subject=${subject}&body=${body}`
+
+    // Open the user's default email client
+    window.location.href = mailtoUrl
+
+    toast.success('Opening your email client...', {
+      description: 'Please send the pre-filled email to complete the contact.',
     })
 
+    // Reset form
     setFormData({ name: '', email: '', subject: '', message: '' })
     setIsSubmitting(false)
   }
