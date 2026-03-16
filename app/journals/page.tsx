@@ -68,74 +68,78 @@ export default function JournalsPage() {
             </div>
 
             {/* Journals Grid */}
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
               {isLoading ? (
                 <>
                   {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <Card key={i} className="border-border">
-                      <CardContent className="p-6">
-                        <Skeleton className="mb-4 h-48 w-full rounded-md" />
-                        <Skeleton className="mb-2 h-6 w-3/4" />
-                        <Skeleton className="mb-2 h-4 w-1/2" />
-                        <Skeleton className="mb-4 h-4 w-1/3" />
-                        <Skeleton className="h-20 w-full" />
-                      </CardContent>
-                    </Card>
+                    <div key={i} className="flex flex-col gap-4">
+                      <Skeleton className="aspect-[3/4] w-full rounded-lg" />
+                      <Skeleton className="h-6 w-3/4" />
+                      <Skeleton className="h-4 w-1/2" />
+                    </div>
                   ))}
                 </>
               ) : filteredJournals.length > 0 ? (
                 filteredJournals.map((journal) => (
-                  <Card
-                    key={journal.id}
-                    className="group flex flex-col border-border transition-shadow hover:shadow-md"
-                  >
-                    <CardContent className="flex-1 p-6">
-                      <div className="relative mb-4 flex h-48 items-center justify-center overflow-hidden rounded-md bg-primary/5">
-                        {journal.coverImageUrl ? (
-                          <Image
-                            src={getGoogleDriveDirectUrl(journal.coverImageUrl)}
-                            alt={journal.title}
-                            fill
-                            className="object-cover transition-transform group-hover:scale-105"
-                          />
-                        ) : (
-                          <FileText className="h-20 w-20 text-primary/30" />
-                        )}
+                  <div key={journal.id} className="group flex flex-col">
+                    {/* Book Cover Container */}
+                    <div className="relative mb-6 aspect-[3/4] w-full overflow-hidden rounded-lg bg-muted shadow-md transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl">
+                      {journal.coverImageUrl ? (
+                        <Image
+                          src={getGoogleDriveDirectUrl(journal.coverImageUrl)}
+                          alt={journal.title}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full flex-col items-center justify-center bg-primary/5 p-8 text-center">
+                          <BookOpen className="mb-4 h-16 w-16 text-primary/20" />
+                          <p className="text-xs font-bold uppercase tracking-widest text-primary/40">
+                            Academic Journal
+                          </p>
+                        </div>
+                      )}
+                      
+                      {/* Overlay */}
+                      <div className="absolute inset-0 bg-primary/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                      
+                      {/* Action Button */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-300 group-hover:opacity-100">
+                        <Button asChild variant="secondary" className="scale-90 font-bold shadow-xl transition-transform duration-300 group-hover:scale-100">
+                          <a
+                            href={journal.googleDriveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Read Full Journal
+                          </a>
+                        </Button>
                       </div>
-                      <h3 className="line-clamp-2 text-lg font-semibold text-foreground">
+
+                      {/* Side spine effect */}
+                      <div className="absolute inset-y-0 left-0 w-1 bg-black/10" />
+                    </div>
+                    
+                    {/* Details */}
+                    <div className="flex flex-1 flex-col px-1">
+                      <div className="mb-2 flex items-center gap-2">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-primary/60">
+                          {new Date(journal.publicationDate).getFullYear()} Edition
+                        </span>
+                        <div className="h-px flex-1 bg-border/50" />
+                      </div>
+                      <h3 className="line-clamp-2 font-serif text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
                         {journal.title}
                       </h3>
-                      <p className="mt-2 text-sm font-medium text-primary">
+                      <p className="mt-2 flex items-center gap-1.5 text-sm font-bold text-muted-foreground">
+                        <span className="h-1 w-1 rounded-full bg-primary" />
                         {journal.author}
                       </p>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        Published:{' '}
-                        {new Date(journal.publicationDate).toLocaleDateString(
-                          'en-US',
-                          {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          }
-                        )}
+                      <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground/80 italic">
+                        &quot;{journal.abstract}&quot;
                       </p>
-                      <p className="mt-4 line-clamp-4 text-sm leading-relaxed text-muted-foreground">
-                        {journal.abstract}
-                      </p>
-                    </CardContent>
-                    <CardFooter className="border-t border-border p-4">
-                      <Button asChild variant="default" className="w-full gap-2">
-                        <a
-                          href={journal.googleDriveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Read Journal
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      </Button>
-                    </CardFooter>
-                  </Card>
+                    </div>
+                  </div>
                 ))
               ) : searchQuery ? (
                 <div className="col-span-full flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-16">

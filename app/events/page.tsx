@@ -68,7 +68,7 @@ export default function EventsPage() {
 
               <TabsContent value="upcoming">
                 {isLoading ? (
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-8">
                     {[1, 2, 3].map((i) => (
                       <Card key={i} className="border-border">
                         <CardContent className="p-6">
@@ -81,7 +81,7 @@ export default function EventsPage() {
                     ))}
                   </div>
                 ) : upcomingEvents.length > 0 ? (
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-8">
                     {upcomingEvents.map((event) => (
                       <EventCard key={event.id} event={event} />
                     ))}
@@ -96,7 +96,7 @@ export default function EventsPage() {
 
               <TabsContent value="past">
                 {isLoading ? (
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-8">
                     {[1, 2, 3].map((i) => (
                       <Card key={i} className="border-border">
                         <CardContent className="p-6">
@@ -109,7 +109,7 @@ export default function EventsPage() {
                     ))}
                   </div>
                 ) : pastEvents.length > 0 ? (
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-8">
                     {pastEvents.map((event) => (
                       <EventCard key={event.id} event={event} isPast />
                     ))}
@@ -146,87 +146,112 @@ function EventCard({
 }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const eventDate = new Date(event.date)
-  const isLongDescription = event.description.length > 150
+  const isLongDescription = event.description.length > 200
 
   return (
     <Card
-      className={`group flex flex-col border-border transition-shadow hover:shadow-md ${
-        isPast ? 'opacity-80' : ''
+      className={`group overflow-hidden border-border transition-all hover:border-primary/50 hover:shadow-lg ${
+        isPast ? 'opacity-85 grayscale-[0.5]' : ''
       }`}
     >
-      <CardContent className="flex-1 p-6">
-        {event.imageUrl && (
-          <div className="relative mb-4 h-40 overflow-hidden rounded-md">
+      <div className="flex flex-col md:flex-row">
+        {/* Image Section */}
+        {event.imageUrl ? (
+          <div className="relative h-48 w-full shrink-0 md:h-auto md:w-64 lg:w-80">
             <Image
               src={getGoogleDriveDirectUrl(event.imageUrl)}
               alt={event.title}
               fill
-              className="object-cover transition-transform group-hover:scale-105"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-          </div>
-        )}
-
-        <div className="mb-4 flex items-start gap-3">
-          <div
-            className={`flex h-14 w-14 flex-shrink-0 flex-col items-center justify-center rounded-lg ${
-              isPast ? 'bg-muted text-muted-foreground' : 'bg-primary text-primary-foreground'
-            }`}
-          >
-            <span className="text-xs font-medium uppercase">
-              {eventDate.toLocaleDateString('en-US', { month: 'short' })}
-            </span>
-            <span className="text-xl font-bold">{eventDate.getDate()}</span>
-          </div>
-          <div>
-            <p className="text-sm font-medium text-foreground">
-              {eventDate.toLocaleDateString('en-US', { weekday: 'long' })}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {eventDate.toLocaleDateString('en-US', { year: 'numeric' })}
-            </p>
-            {isPast && (
-              <span className="mt-1 inline-block rounded bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-                Past Event
-              </span>
+            {!isPast && (
+              <div className="absolute top-4 left-4 rounded-full bg-primary/90 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground backdrop-blur-sm">
+                Upcoming
+              </div>
             )}
           </div>
-        </div>
-
-        <h3 className="line-clamp-2 text-lg font-semibold text-foreground">
-          {event.title}
-        </h3>
-
-        {event.location && (
-          <div className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
-            <MapPin className="h-4 w-4 flex-shrink-0" />
-            <span className="line-clamp-1">{event.location}</span>
+        ) : (
+          <div className="flex h-48 w-full items-center justify-center bg-muted/50 md:h-auto md:w-64 lg:w-80">
+            <Calendar className="h-12 w-12 text-muted-foreground/20" />
           </div>
         )}
 
-        <div className="mt-4 space-y-2">
-          <p className={`text-sm leading-relaxed text-muted-foreground ${!isExpanded ? 'line-clamp-3' : ''}`}>
-            {event.description}
-          </p>
-          {isLongDescription && (
-            <Button
-              variant="link"
-              size="sm"
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="h-auto p-0 text-primary font-medium hover:no-underline"
+        {/* Content Section */}
+        <div className="flex flex-1 flex-col p-6">
+          <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex items-center gap-4">
+              <div
+                className={`flex h-16 w-16 flex-col items-center justify-center rounded-xl border-2 ${
+                  isPast
+                    ? 'border-muted bg-muted/30 text-muted-foreground'
+                    : 'border-primary/20 bg-primary/5 text-primary'
+                }`}
+              >
+                <span className="text-xs font-bold uppercase tracking-tighter">
+                  {eventDate.toLocaleDateString('en-US', { month: 'short' })}
+                </span>
+                <span className="text-2xl font-black leading-none">{eventDate.getDate()}</span>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold leading-tight text-foreground sm:text-2xl">
+                  {event.title}
+                </h3>
+                <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-medium text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <CalendarDays className="h-4 w-4 text-primary" />
+                    {eventDate.toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      year: 'numeric',
+                    })}
+                  </span>
+                  {event.location && (
+                    <span className="flex items-center gap-1.5">
+                      <MapPin className="h-4 w-4 text-primary" />
+                      {event.location}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative">
+            <p
+              className={`text-base leading-relaxed text-muted-foreground transition-all duration-300 ${
+                !isExpanded ? 'line-clamp-3' : ''
+              }`}
             >
-              {isExpanded ? (
-                <span className="flex items-center gap-1">
-                  Read Less <ChevronUp className="h-3 w-3" />
-                </span>
-              ) : (
-                <span className="flex items-center gap-1">
-                  Read More <ChevronDown className="h-3 w-3" />
-                </span>
-              )}
-            </Button>
+              {event.description}
+            </p>
+            {isLongDescription && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="mt-2 h-auto p-0 text-primary hover:bg-transparent hover:text-primary/80"
+              >
+                {isExpanded ? (
+                  <span className="flex items-center gap-1 font-semibold">
+                    Show Less <ChevronUp className="h-4 w-4" />
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1 font-semibold">
+                    Read Full Description <ChevronDown className="h-4 w-4" />
+                  </span>
+                )}
+              </Button>
+            )}
+          </div>
+
+          {isPast && (
+            <div className="mt-6">
+              <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+                <Clock className="mr-1 h-3 w-3" /> Event Concluded
+              </span>
+            </div>
           )}
         </div>
-      </CardContent>
+      </div>
     </Card>
   )
 }

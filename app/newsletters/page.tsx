@@ -67,13 +67,13 @@ export default function NewslettersPage() {
             </div>
 
             {/* Newsletters Grid */}
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {isLoading ? (
                 <>
                   {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <Card key={i} className="border-border">
+                    <Card key={i} className="overflow-hidden border-border">
+                      <Skeleton className="h-64 w-full" />
                       <CardContent className="p-6">
-                        <Skeleton className="mb-4 h-48 w-full rounded-md" />
                         <Skeleton className="mb-2 h-6 w-3/4" />
                         <Skeleton className="mb-4 h-4 w-1/3" />
                         <Skeleton className="h-20 w-full" />
@@ -85,51 +85,63 @@ export default function NewslettersPage() {
                 filteredNewsletters.map((newsletter) => (
                   <Card
                     key={newsletter.id}
-                    className="group flex flex-col border-border transition-shadow hover:shadow-md"
+                    className="group flex flex-col overflow-hidden border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl"
                   >
-                    <CardContent className="flex-1 p-6">
-                      <div className="relative mb-4 flex h-48 items-center justify-center overflow-hidden rounded-md bg-primary/5">
-                        {newsletter.coverImageUrl ? (
-                          <Image
-                            src={getGoogleDriveDirectUrl(newsletter.coverImageUrl)}
-                            alt={newsletter.title}
-                            fill
-                            className="object-cover transition-transform group-hover:scale-105"
-                          />
-                        ) : (
-                          <FileText className="h-20 w-20 text-primary/30" />
-                        )}
+                    <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
+                      {newsletter.coverImageUrl ? (
+                        <Image
+                          src={getGoogleDriveDirectUrl(newsletter.coverImageUrl)}
+                          alt={newsletter.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-primary/5">
+                          <FileText className="h-20 w-20 text-primary/20" />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                      <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                        <Button asChild variant="secondary" className="w-full gap-2 backdrop-blur-sm">
+                          <a
+                            href={newsletter.googleDriveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Read Newsletter
+                            <ExternalLink className="h-4 w-4" />
+                          </a>
+                        </Button>
                       </div>
-                      <h3 className="line-clamp-2 text-lg font-semibold text-foreground">
+                    </div>
+                    
+                    <CardContent className="flex flex-1 flex-col p-6">
+                      <div className="mb-3 flex items-center gap-2">
+                        <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
+                          {new Date(newsletter.publicationDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                        </span>
+                      </div>
+                      <h3 className="line-clamp-2 text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
                         {newsletter.title}
                       </h3>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        Published:{' '}
-                        {new Date(newsletter.publicationDate).toLocaleDateString(
-                          'en-US',
-                          {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          }
-                        )}
-                      </p>
-                      <p className="mt-4 line-clamp-4 text-sm leading-relaxed text-muted-foreground">
+                      <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
                         {newsletter.description}
                       </p>
+                      <div className="mt-auto pt-6">
+                        <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <FileText className="h-3 w-3" /> PDF Document
+                          </span>
+                          <span>
+                            {new Date(newsletter.publicationDate).toLocaleDateString('en-US', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric',
+                            })}
+                          </span>
+                        </div>
+                      </div>
                     </CardContent>
-                    <CardFooter className="border-t border-border p-4">
-                      <Button asChild variant="default" className="w-full gap-2">
-                        <a
-                          href={newsletter.googleDriveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Read Newsletter
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      </Button>
-                    </CardFooter>
                   </Card>
                 ))
               ) : searchQuery ? (
