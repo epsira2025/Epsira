@@ -72,11 +72,32 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'EPSIRA - Ethiopian Political Science and International Relations Association',
+    alternateName: 'EPSIRA',
+    url: 'https://epsira.org',
+    logo: 'https://epsira.org/Logo EPSIRA .png',
+    description: 'Advancing political science and international relations research in Ethiopia through academic publications and scholarly events.',
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'Ethiopia',
+    },
+    sameAs: [
+      // Add social media links here
+    ],
+  }
+
   return (
     <html lang="en">
       <body
         className={`${inter.variable} ${merriweather.variable} font-sans antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <AuthProvider>
           {children}
           <Toaster />
