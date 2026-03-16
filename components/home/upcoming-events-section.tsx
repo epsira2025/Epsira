@@ -61,55 +61,62 @@ export function UpcomingEventsSection() {
                   key={event.id}
                   className="group flex flex-col overflow-hidden border-border bg-card transition-all duration-300 hover:border-primary/50 hover:shadow-xl"
                 >
-                  <div className="relative h-48 w-full overflow-hidden">
+                  <div className="relative h-56 w-full overflow-hidden">
                     {event.imageUrl ? (
                       <Image
                         src={getGoogleDriveDirectUrl(event.imageUrl)}
                         alt={event.title}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-muted">
+                      <div className="flex h-full w-full items-center justify-center bg-muted/50">
                         <Calendar className="h-12 w-12 text-muted-foreground/20" />
                       </div>
                     )}
-                    <div className="absolute top-4 left-4 flex h-14 w-14 flex-col items-center justify-center rounded-xl border border-white/20 bg-primary/90 text-primary-foreground backdrop-blur-md">
-                      <span className="text-[10px] font-bold uppercase tracking-tighter">
+                    <div className="absolute top-4 left-4 flex h-16 w-16 flex-col items-center justify-center rounded-xl border border-white/20 bg-primary/95 text-primary-foreground backdrop-blur-md shadow-lg transition-transform group-hover:scale-110">
+                      <span className="text-[10px] font-black uppercase tracking-tighter opacity-80">
                         {eventDate.toLocaleDateString('en-US', { month: 'short' })}
                       </span>
-                      <span className="text-xl font-black leading-none">{eventDate.getDate()}</span>
+                      <span className="text-2xl font-black leading-none">{eventDate.getDate()}</span>
                     </div>
                   </div>
                   
                   <CardContent className="flex flex-1 flex-col p-6">
-                    <h3 className="line-clamp-2 text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
-                      {event.title}
-                    </h3>
+                    <div className="mb-4">
+                      <h3 className="line-clamp-2 font-serif text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
+                        {event.title}
+                      </h3>
+                    </div>
                     
-                    <div className="mt-3 space-y-2">
-                      <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
-                        <CalendarDays className="h-4 w-4 text-primary" />
+                    <div className="mt-auto space-y-3">
+                      <div className="flex items-center gap-2.5 text-sm font-bold text-muted-foreground/80">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
+                          <CalendarDays className="h-4 w-4" />
+                        </div>
                         {eventDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric' })}
                       </div>
+                      
                       {event.location && (
-                        <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
-                          <MapPin className="h-4 w-4 text-primary" />
+                        <div className="flex items-center gap-2.5 text-sm font-bold text-muted-foreground/80">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
+                            <MapPin className="h-4 w-4" />
+                          </div>
                           <span className="line-clamp-1">{event.location}</span>
                         </div>
                       )}
                     </div>
 
-                    <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                    <p className="mt-5 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
                       {event.description}
                     </p>
                     
-                    <div className="mt-6 pt-4 border-t border-border/50">
+                    <div className="mt-8 pt-5 border-t border-border/50">
                       <Link 
                         href="/events" 
-                        className="inline-flex items-center gap-1 text-sm font-bold text-primary transition-colors hover:text-primary/80"
+                        className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-widest text-primary transition-all hover:gap-3"
                       >
-                        Event Details <ArrowRight className="h-4 w-4" />
+                        View Details <ArrowRight className="h-4 w-4" />
                       </Link>
                     </div>
                   </CardContent>
