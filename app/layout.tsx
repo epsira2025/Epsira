@@ -18,53 +18,52 @@ const merriweather = Merriweather({
 
 export const metadata: Metadata = {
   title: {
-    default: 'EPSIRA - Ethiopian Political Science and International Relations Association',
-    template: '%s | EPSIRA',
+    default:
+      "EPSIRA - Ethiopian Political Science and International Relations Association",
+    template: "%s | EPSIRA",
   },
   description:
-    'The Ethiopian Political Science and International Relations Association (EPSIRA) is dedicated to advancing political science and international relations research in Ethiopia.',
+    "The Ethiopian Political Science and International Relations Association (EPSIRA) is dedicated to advancing political science and international relations research in Ethiopia.",
   keywords: [
-    'EPSIRA',
-    'Ethiopian Political Science',
-    'International Relations',
-    'Ethiopia',
-    'Research',
-    'Academic Journals',
-    'Political Science Association',
+    "EPSIRA",
+    "Ethiopian Political Science",
+    "International Relations",
+    "Ethiopia",
+    "Research",
+    "Academic Journals",
+    "Political Science Association",
   ],
-  authors: [{ name: 'EPSIRA' }],
-  creator: 'EPSIRA',
+  authors: [{ name: "EPSIRA" }],
+  creator: "EPSIRA",
   icons: {
-    icon: [
-      { url: '/Logo EPSIRA .png', sizes: 'any' },
-    ],
-    apple: [
-      { url: '/apple-icon.png' },
-    ],
+    icon: [{ url: "/Logo EPSIRA .png", sizes: "any" }],
+    apple: [{ url: "/apple-icon.png" }],
   },
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://epsira.org',
-    title: 'EPSIRA - Ethiopian Political Science and International Relations Association',
+    type: "website",
+    locale: "en_US",
+    url: "https://epsira.org",
+    title:
+      "EPSIRA - Ethiopian Political Science and International Relations Association",
     description:
-      'Advancing political science and international relations research in Ethiopia through academic publications and scholarly events.',
-    siteName: 'EPSIRA',
+      "Advancing political science and international relations research in Ethiopia through academic publications and scholarly events.",
+    siteName: "EPSIRA",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'EPSIRA - Ethiopian Political Science and International Relations Association',
+    card: "summary_large_image",
+    title:
+      "EPSIRA - Ethiopian Political Science and International Relations Association",
     description:
-      'Advancing political science and international relations research in Ethiopia.',
+      "Advancing political science and international relations research in Ethiopia.",
   },
   robots: {
     index: true,
     follow: true,
   },
   verification: {
-    google: 'google7f5fff0d0e674aac',
+    google: "53FRvfj2FgfQTitnn0kSvm4EQy7iQ85dhPc92fw0gQg",
   },
-}
+};
 
 export const viewport: Viewport = {
   themeColor: '#1e40af',
