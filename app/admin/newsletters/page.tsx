@@ -89,51 +89,43 @@ export default function AdminNewslettersPage() {
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {isLoading ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((i) => (
-              <Card key={i} className="border-border">
+              <Card key={i} className="overflow-hidden border-border">
+                <Skeleton className="h-64 w-full" />
                 <CardContent className="p-6">
-                  <Skeleton className="mb-4 h-40 w-full rounded-md" />
                   <Skeleton className="mb-2 h-6 w-3/4" />
-                  <Skeleton className="mb-4 h-4 w-1/2" />
-                  <Skeleton className="h-16 w-full" />
+                  <Skeleton className="mb-4 h-4 w-1/3" />
+                  <Skeleton className="h-20 w-full" />
                 </CardContent>
               </Card>
             ))}
           </div>
         ) : newsletters.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {newsletters.map((newsletter) => (
               <Card
                 key={newsletter.id}
-                className="group flex flex-col border-border"
+                className="group flex flex-col overflow-hidden border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl"
               >
-                <CardContent className="flex flex-1 flex-col p-6">
-                  <div className="relative mb-4 flex h-40 items-center justify-center overflow-hidden rounded-md bg-primary/5">
-                    {newsletter.coverImageUrl ? (
-                      <Image
-                        src={getGoogleDriveDirectUrl(newsletter.coverImageUrl)}
-                        alt={newsletter.title}
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <FileText className="h-16 w-16 text-primary/30" />
-                    )}
-                  </div>
-
-                  <h3 className="line-clamp-2 text-lg font-semibold text-foreground">
-                    {newsletter.title}
-                  </h3>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {new Date(newsletter.publicationDate).toLocaleDateString()}
-                  </p>
-                  <p className="mt-3 line-clamp-2 flex-1 text-sm text-muted-foreground">
-                    {newsletter.description}
-                  </p>
-
-                  <div className="mt-4 flex gap-2">
-                    <Button asChild variant="outline" size="sm" className="flex-1">
+                <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
+                  {newsletter.coverImageUrl ? (
+                    <Image
+                      src={getGoogleDriveDirectUrl(newsletter.coverImageUrl)}
+                      alt={newsletter.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-primary/5">
+                      <FileText className="h-20 w-20 text-primary/20" />
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  
+                  {/* Action Buttons Overlay */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-0 transition-all duration-300 group-hover:opacity-100">
+                    <Button asChild variant="secondary" size="sm" className="w-32 font-bold shadow-xl backdrop-blur-sm">
                       <a
                         href={newsletter.googleDriveUrl}
                         target="_blank"
@@ -143,18 +135,52 @@ export default function AdminNewslettersPage() {
                         View
                       </a>
                     </Button>
-                    <Button asChild variant="outline" size="sm">
+                    <Button asChild variant="secondary" size="sm" className="w-32 font-bold shadow-xl backdrop-blur-sm">
                       <Link href={`/admin/newsletters/${newsletter.id}/edit`}>
-                        <Pencil className="h-4 w-4" />
+                        <Pencil className="mr-2 h-4 w-4" />
+                        Edit
                       </Link>
                     </Button>
                     <Button
-                      variant="outline"
+                      variant="destructive"
                       size="sm"
+                      className="w-32 font-bold shadow-xl backdrop-blur-sm"
                       onClick={() => setDeleteId(newsletter.id)}
                     >
-                      <Trash2 className="h-4 w-4 text-destructive" />
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Delete
                     </Button>
+                  </div>
+                </div>
+
+                <CardContent className="flex flex-1 flex-col p-6">
+                  <div className="mb-3 flex items-center gap-2">
+                    <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
+                      {new Date(newsletter.publicationDate).toLocaleDateString('en-US', {
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </span>
+                  </div>
+                  <h3 className="line-clamp-2 text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
+                    {newsletter.title}
+                  </h3>
+                  <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                    {newsletter.description}
+                  </p>
+                  <div className="mt-auto pt-6">
+                    <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <FileText className="h-3 w-3" /> PDF Document
+                      </span>
+                      <span>
+                        {new Date(newsletter.publicationDate).toLocaleDateString('en-US', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                        })}
+                      </span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

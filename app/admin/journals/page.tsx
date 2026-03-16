@@ -89,52 +89,48 @@ export default function AdminJournalsPage() {
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {isLoading ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((i) => (
-              <Card key={i} className="border-border">
-                <CardContent className="p-6">
-                  <Skeleton className="mb-4 h-40 w-full rounded-md" />
-                  <Skeleton className="mb-2 h-6 w-3/4" />
-                  <Skeleton className="mb-4 h-4 w-1/2" />
-                  <Skeleton className="h-16 w-full" />
-                </CardContent>
-              </Card>
+              <div key={i} className="flex flex-col gap-4">
+                <Skeleton className="aspect-[3/4] w-full rounded-lg" />
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
             ))}
           </div>
         ) : journals.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             {journals.map((journal) => (
-              <Card
-                key={journal.id}
-                className="group flex flex-col border-border"
-              >
-                <CardContent className="flex flex-1 flex-col p-6">
-                  <div className="relative mb-4 flex h-40 items-center justify-center overflow-hidden rounded-md bg-primary/5">
-                    {journal.coverImageUrl ? (
-                      <Image
-                        src={getGoogleDriveDirectUrl(journal.coverImageUrl)}
-                        alt={journal.title}
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <FileText className="h-16 w-16 text-primary/30" />
-                    )}
-                  </div>
+              <div key={journal.id} className="group flex flex-col">
+                {/* Book Cover Container */}
+                <div className="relative mb-6 aspect-[3/4] w-full overflow-hidden rounded-lg bg-muted shadow-md transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl">
+                  {journal.coverImageUrl ? (
+                    <Image
+                      src={getGoogleDriveDirectUrl(journal.coverImageUrl)}
+                      alt={journal.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full flex-col items-center justify-center bg-primary/5 p-8 text-center">
+                      <BookOpen className="mb-4 h-16 w-16 text-primary/20" />
+                      <p className="text-xs font-bold uppercase tracking-widest text-primary/40">
+                        Academic Journal
+                      </p>
+                    </div>
+                  )}
 
-                  <h3 className="line-clamp-2 text-lg font-semibold text-foreground">
-                    {journal.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-primary">{journal.author}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {new Date(journal.publicationDate).toLocaleDateString()}
-                  </p>
-                  <p className="mt-3 line-clamp-2 flex-1 text-sm text-muted-foreground">
-                    {journal.abstract}
-                  </p>
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-primary/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-                  <div className="mt-4 flex gap-2">
-                    <Button asChild variant="outline" size="sm" className="flex-1">
+                  {/* Action Buttons Overlay */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-0 transition-all duration-300 group-hover:opacity-100">
+                    <Button
+                      asChild
+                      variant="secondary"
+                      size="sm"
+                      className="w-32 font-bold shadow-xl"
+                    >
                       <a
                         href={journal.googleDriveUrl}
                         target="_blank"
@@ -144,21 +140,52 @@ export default function AdminJournalsPage() {
                         View
                       </a>
                     </Button>
-                    <Button asChild variant="outline" size="sm">
+                    <Button
+                      asChild
+                      variant="secondary"
+                      size="sm"
+                      className="w-32 font-bold shadow-xl"
+                    >
                       <Link href={`/admin/journals/${journal.id}/edit`}>
-                        <Pencil className="h-4 w-4" />
+                        <Pencil className="mr-2 h-4 w-4" />
+                        Edit
                       </Link>
                     </Button>
                     <Button
-                      variant="outline"
+                      variant="destructive"
                       size="sm"
+                      className="w-32 font-bold shadow-xl"
                       onClick={() => setDeleteId(journal.id)}
                     >
-                      <Trash2 className="h-4 w-4 text-destructive" />
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Delete
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
+
+                  {/* Side spine effect */}
+                  <div className="absolute inset-y-0 left-0 w-1 bg-black/10" />
+                </div>
+
+                {/* Details */}
+                <div className="flex flex-1 flex-col px-1">
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-primary/60">
+                      {new Date(journal.publicationDate).getFullYear()} Edition
+                    </span>
+                    <div className="h-px flex-1 bg-border/50" />
+                  </div>
+                  <h3 className="line-clamp-2 font-serif text-xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
+                    {journal.title}
+                  </h3>
+                  <p className="mt-2 flex items-center gap-1.5 text-sm font-bold text-muted-foreground">
+                    <span className="h-1 w-1 rounded-full bg-primary" />
+                    {journal.author}
+                  </p>
+                  <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-muted-foreground/80 italic">
+                    &quot;{journal.abstract}&quot;
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         ) : (

@@ -10,6 +10,8 @@ import {
   Pencil,
   Trash2,
   MapPin,
+  CalendarDays,
+  Clock,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -87,120 +89,140 @@ export default function AdminEventsPage() {
       </header>
 
       {/* Main Content */}
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
         {isLoading ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8">
             {[1, 2, 3].map((i) => (
               <Card key={i} className="border-border">
                 <CardContent className="p-6">
-                  <Skeleton className="mb-4 h-32 w-full rounded-md" />
-                  <Skeleton className="mb-2 h-6 w-3/4" />
-                  <Skeleton className="mb-4 h-4 w-1/2" />
-                  <Skeleton className="h-12 w-full" />
+                  <div className="flex flex-col gap-6 md:flex-row">
+                    <Skeleton className="h-48 w-full rounded-md md:h-auto md:w-64 lg:w-80" />
+                    <div className="flex-1 space-y-4">
+                      <Skeleton className="h-8 w-3/4" />
+                      <Skeleton className="h-4 w-1/2" />
+                      <Skeleton className="h-20 w-full" />
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             ))}
           </div>
         ) : events.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {events.map((event) => {
-              const eventDate = new Date(event.date)
-              const isPast = eventDate < new Date()
+          <div className="grid gap-8">
+            {events
+              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+              .map((event) => {
+                const eventDate = new Date(event.date)
+                const isPast = eventDate < new Date()
 
-              return (
-                <Card
-                  key={event.id}
-                  className={`group flex flex-col border-border ${
-                    isPast ? 'opacity-75' : ''
-                  }`}
-                >
-                  <CardContent className="flex flex-1 flex-col p-6">
-                    {event.imageUrl && (
-                      <div className="relative mb-4 h-32 overflow-hidden rounded-md">
-                        <Image
-                          src={getGoogleDriveDirectUrl(event.imageUrl)}
-                          alt={event.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
+                return (
+                  <Card
+                    key={event.id}
+                    className={`group overflow-hidden border-border transition-all hover:border-primary/50 hover:shadow-lg ${
+                      isPast ? 'opacity-85 grayscale-[0.5]' : ''
+                    }`}
+                  >
+                    <div className="flex flex-col md:flex-row">
+                      {/* Image Section */}
+                      {event.imageUrl ? (
+                        <div className="relative h-48 w-full shrink-0 md:h-auto md:w-64 lg:w-80">
+                          <Image
+                            src={getGoogleDriveDirectUrl(event.imageUrl)}
+                            alt={event.title}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          {isPast && (
+                            <div className="absolute top-4 left-4 rounded-full bg-muted/90 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground backdrop-blur-sm">
+                              Past
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="flex h-48 w-full items-center justify-center bg-muted/50 md:h-auto md:w-64 lg:w-80">
+                          <Calendar className="h-12 w-12 text-muted-foreground/20" />
+                        </div>
+                      )}
 
-                    <div className="mb-3 flex items-start gap-3">
-                      <div
-                        className={`flex h-12 w-12 flex-shrink-0 flex-col items-center justify-center rounded-lg ${
-                          isPast
-                            ? 'bg-muted text-muted-foreground'
-                            : 'bg-primary text-primary-foreground'
-                        }`}
-                      >
-                        <span className="text-xs font-medium uppercase">
-                          {eventDate.toLocaleDateString('en-US', {
-                            month: 'short',
-                          })}
-                        </span>
-                        <span className="text-lg font-bold">
-                          {eventDate.getDate()}
-                        </span>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-foreground">
-                          {eventDate.toLocaleDateString('en-US', {
-                            weekday: 'long',
-                          })}
+                      {/* Content Section */}
+                      <div className="flex flex-1 flex-col p-6">
+                        <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                          <div className="flex items-center gap-4">
+                            <div
+                              className={`flex h-16 w-16 flex-col items-center justify-center rounded-xl border-2 ${
+                                isPast
+                                  ? 'border-muted bg-muted/30 text-muted-foreground'
+                                  : 'border-primary/20 bg-primary/5 text-primary'
+                              }`}
+                            >
+                              <span className="text-xs font-bold uppercase tracking-tighter">
+                                {eventDate.toLocaleDateString('en-US', { month: 'short' })}
+                              </span>
+                              <span className="text-2xl font-black leading-none">
+                                {eventDate.getDate()}
+                              </span>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-bold leading-tight text-foreground sm:text-2xl">
+                                {event.title}
+                              </h3>
+                              <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-medium text-muted-foreground">
+                                <span className="flex items-center gap-1.5">
+                                  <CalendarDays className="h-4 w-4 text-primary" />
+                                  {eventDate.toLocaleDateString('en-US', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                  })}
+                                </span>
+                                {event.location && (
+                                  <span className="flex items-center gap-1.5">
+                                    <MapPin className="h-4 w-4 text-primary" />
+                                    {event.location}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <p className="line-clamp-2 text-base leading-relaxed text-muted-foreground">
+                          {event.description}
                         </p>
-                        <p className="text-sm text-muted-foreground">
-                          {eventDate.toLocaleDateString('en-US', {
-                            year: 'numeric',
-                          })}
-                        </p>
-                        {isPast && (
-                          <span className="mt-1 inline-block rounded bg-muted px-2 py-0.5 text-xs text-muted-foreground">
-                            Past Event
-                          </span>
-                        )}
+
+                        <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
+                          <div className="flex items-center gap-2">
+                            {isPast ? (
+                              <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+                                <Clock className="mr-1 h-3 w-3" /> Event Concluded
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+                                Upcoming Event
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex gap-2">
+                            <Button asChild variant="outline" size="sm">
+                              <Link href={`/admin/events/${event.id}/edit`}>
+                                <Pencil className="mr-2 h-4 w-4" />
+                                Edit
+                              </Link>
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setDeleteId(event.id)}
+                              className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-
-                    <h3 className="line-clamp-2 text-lg font-semibold text-foreground">
-                      {event.title}
-                    </h3>
-
-                    {event.location && (
-                      <div className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
-                        <MapPin className="h-4 w-4 flex-shrink-0" />
-                        <span className="line-clamp-1">{event.location}</span>
-                      </div>
-                    )}
-
-                    <p className="mt-3 line-clamp-2 flex-1 text-sm text-muted-foreground">
-                      {event.description}
-                    </p>
-
-                    <div className="mt-4 flex gap-2">
-                      <Button
-                        asChild
-                        variant="outline"
-                        size="sm"
-                        className="flex-1"
-                      >
-                        <Link href={`/admin/events/${event.id}/edit`}>
-                          <Pencil className="mr-2 h-4 w-4" />
-                          Edit
-                        </Link>
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setDeleteId(event.id)}
-                      >
-                        <Trash2 className="h-4 w-4 text-destructive" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              )
-            })}
+                  </Card>
+                )
+              })}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-16">
